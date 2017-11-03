@@ -18,3 +18,14 @@ func Context(name string, value interface{}) func(http.Handler) http.Handler {
 		return http.HandlerFunc(fn)
 	}
 }
+
+// FromContext retrieves a pre-injected value or nil if it was never
+// set. Caller must perform a type assertion on the returned interface
+// to use the saved value.
+func FromContext(r *http.Request, name string) interface{} {
+	if r == nil {
+		return nil
+	}
+
+	return r.Context().Value(name)
+}
